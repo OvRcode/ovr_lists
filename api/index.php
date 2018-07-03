@@ -670,6 +670,14 @@ class Lists {
         }
         if ( isset($orderData['To Beach']) ) {
           $toBeach = $orderData['To Beach'];
+          if ( isset( $orderData['Extras'] ) ) {
+            $tertiary_label = "Extras";
+            $tertiary = $orderData['Extras'];
+          }
+          if ( isset( $orderData['Add-ons'] ) ) {
+            $tertiary_label = "Add-ons";
+            $tertiary = $orderData['Add-ons'];
+          }
         }
         if ( isset($orderData['From Beach']) ) {
           $fromBeach = $orderData['From Beach'];

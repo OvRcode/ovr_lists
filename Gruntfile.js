@@ -13,7 +13,7 @@ module.exports = function(grunt){
     manifest: {
       generate: {
         options:{
-          basePath: "lists/",
+          basePath: "/",
           network:["/api", "/login","*"],
           timestamp: true,
           verbose: true,
@@ -30,7 +30,7 @@ module.exports = function(grunt){
             "*.html",
             "*.php",
             "lists.version"],
-      dest: "lists/manifest.appcache"
+      dest: "manifest.appcache"
       },
     },
     csslint: {
@@ -40,7 +40,7 @@ module.exports = function(grunt){
           "box-model": false,
           important: false
         },
-        src: ['lists/css/lists.css', 'lists/css/simple-sidebar.css']
+        src: ['lists/css/lists.css', 'css/simple-sidebar.css']
       },
     },
     jshint: {
@@ -48,95 +48,95 @@ module.exports = function(grunt){
         src: ['Gruntfile.js'],
       },
       admin: {
-        src: ['lists/js/partials/_admin.js'],
+        src: ['js/partials/_admin.js'],
       },
       common: {
-        src: ['lists/js/partials/_common.js'],
+        src: ['js/partials/_common.js'],
       },
       lists: {
-        src: ['lists/js/partials/_lists.js'],
+        src: ['js/partials/_lists.js'],
       },
       message: {
-        src: ['lists/js/partials/_message.js'],
+        src: ['js/partials/_message.js'],
       },
       reports: {
-        src: ['lists/js/partials/_reports.js'],
+        src: ['js/partials/_reports.js'],
       },
       settings: {
-        src: ['lists/js/partials/_settings.js'],
+        src: ['js/partials/_settings.js'],
       },
       summary: {
-        src: ['lists/js/partials/_summary.js'],
+        src: ['js/partials/_summary.js'],
       },
     },
     phplint: {
       api: {
-        src: ['lists/api/index.php'],
+        src: ['api/index.php'],
       },
       main: {
-        src: ['lists/index.php', 'lists/list.php', 'lists/message.php', 'lists/reports.php', 'lists/summary.php'],
+        src: ['index.php', 'list.php', 'message.php', 'reports.php', 'summary.php'],
       },
     },
     cssmin: {
       target: {
-        src: ['lists/css/application.css'],
-        dest: 'lists/css/application.min.css',
+        src: ['css/application.css'],
+        dest: 'css/application.min.css',
       }
     },
     concat: {
       css: {
-        src: ['lists/css/bootstrap.css','lists/css/fontawesome-all.css','lists/css/simple-sidebar.css','lists/css/lists.css'],
-        dest: 'lists/css/application.css',
+        src: ['css/bootstrap.css','css/fontawesome-all.css','css/simple-sidebar.css','css/lists.css'],
+        dest: 'css/application.css',
       },
       vendor: {
         options: {
           separator: ';',
         },
-        src: ['lists/js/vendor/jquery.js','lists/js/vendor/bootstrap.js','lists/js/vendor/jquery.storageapi.min.js', 'lists/js/vendor/moment.min.js',
-              'lists/js/vendor/jquery.chained.js','lists/js/vendor/jquery.tinysort.min.js', 'lists/js/vendor/detectmobilebrowser.js'],
-        dest: 'lists/js/partials/_vendor.js',
+        src: ['js/vendor/jquery.js','js/vendor/bootstrap.js','js/vendor/jquery.storageapi.min.js', 'js/vendor/moment.min.js',
+              'js/vendor/jquery.chained.js','js/vendor/jquery.tinysort.min.js', 'js/vendor/detectmobilebrowser.js'],
+        dest: 'js/partials/_vendor.js',
       },
       lists: {
         options: {
           separator: ';',
         },
-        src: ['lists/js/partials/_vendor.js','lists/js/partials/_common.js', 'lists/js/partials/_lists.js'],
-        dest: 'lists/js/lists.min.js',
+        src: ['js/partials/_vendor.js','js/partials/_common.js', 'js/partials/_lists.js'],
+        dest: 'js/lists.min.js',
       },
       message: {
         options: {
           separator: ';',
         },
-        src: ['lists/js/partials/_vendor.js','lists/js/partials/_common.js','lists/js/partials/_message.js'],
-        dest: 'lists/js/message.min.js',
+        src: ['js/partials/_vendor.js','js/partials/_common.js','js/partials/_message.js'],
+        dest: 'js/message.min.js',
       },
       reports: {
         options: {
           separator: ';',
         },
-        src: ['lists/js/partials/_vendor.js', 'lists/js/partials/_common.js', 'lists/js/partials/_reports.js'],
-        dest: 'lists/js/reports.min.js',
+        src: ['js/partials/_vendor.js', 'js/partials/_common.js', 'js/partials/_reports.js'],
+        dest: 'js/reports.min.js',
       },
       settings: {
         options: {
           separator: ';',
         },
-        src: ['lists/js/partials/_vendor.js', 'lists/js/partials/_common.js', 'lists/js/partials/_settings.js'],
-        dest: 'lists/js/settings.min.js',
+        src: ['js/partials/_vendor.js', 'js/partials/_common.js', 'js/partials/_settings.js'],
+        dest: 'js/settings.min.js',
       },
       summary: {
         options: {
           separator: ';',
         },
-        src: ['lists/js/partials/_vendor.js', 'lists/js/partials/_common.js', 'lists/js/partials/_summary.js'],
-        dest: 'lists/js/summary.min.js',
+        src: ['js/partials/_vendor.js', 'js/partials/_common.js', 'js/partials/_summary.js'],
+        dest: 'js/summary.min.js',
       },
       admin: {
         options: {
           separator: ';',
         },
-        src: ['lists/js/partials/_vendor.js', 'lists/js/partials/_common.js', 'lists/js/partials/_admin.js'],
-        dest: 'lists/js//admin.min.js',
+        src: ['js/partials/_vendor.js', 'js/partials/_common.js', 'js/partials/_admin.js'],
+        dest: 'js//admin.min.js',
       },
     },
     uglify: {
@@ -148,7 +148,7 @@ module.exports = function(grunt){
           message: 'admin uglify complete',
         },
         files: {
-          'lists/js/admin.min.js': ['lists/js/admin.min.js']
+          'js/admin.min.js': ['js/admin.min.js']
         }
       },
       lists: {
@@ -157,7 +157,7 @@ module.exports = function(grunt){
           preserveComments: false
         },
         files: {
-          'lists/js/lists.min.js': ['lists/js/lists.min.js']
+          'js/lists.min.js': ['js/lists.min.js']
         }
       },
       message: {
@@ -166,7 +166,7 @@ module.exports = function(grunt){
           preserveComments: false
         },
         files: {
-          'lists/js/message.min.js': ['lists/js/message.min.js']
+          'js/message.min.js': ['js/message.min.js']
         }
       },
       reports: {
@@ -175,7 +175,7 @@ module.exports = function(grunt){
           preserveComments: false
         },
         files: {
-          'lists/js/reports.min.js': ['lists/js/reports.min.js']
+          'js/reports.min.js': ['js/reports.min.js']
         }
       },
       settings: {
@@ -184,7 +184,7 @@ module.exports = function(grunt){
           preserveComments: false
         },
         files: {
-          'lists/js/settings.min.js': ['lists/js/settings.min.js']
+          'js/settings.min.js': ['js/settings.min.js']
         }
       },
       summary: {
@@ -193,7 +193,7 @@ module.exports = function(grunt){
           preserveComments: false
         },
         files: {
-          'lists/js/summary.min.js': ['lists/js/summary.min.js']
+          'js/summary.min.js': ['js/summary.min.js']
         }
       },
     },
@@ -202,55 +202,55 @@ module.exports = function(grunt){
         files: ['Gruntfile.js'],
       },
       admin: {
-        files: ['lists/js/partials/_admin.js'],
+        files: ['js/partials/_admin.js'],
         tasks: ['jshint:admin','concat:admin', 'uglify:admin','manifest'],
       },
       api: {
-        files: ['lists/api/index.php'],
+        files: ['api/index.php'],
         tasks: ['phplint','manifest'],
       },
       common: {
-        files: ['lists/js/partials/_common.js'],
+        files: ['js/partials/_common.js'],
         tasks: ['jshint:common', 'concat', 'uglify', 'manifest'],
       },
       css: {
-        files: ['lists/css/lists.css', 'lists/css/simple-sidebar.css'],
+        files: ['css/lists.css', 'css/simple-sidebar.css'],
         tasks: ['csslint','concat:css', 'cssmin','manifest'],
       },
       html: {
-        files: ['lists/*.html'],
+        files: ['*.html'],
         tasks: ['manifest'],
       },
       lists: {
-        files: ['lists/js/partials/_lists.js'],
+        files: ['js/partials/_lists.js'],
         tasks: ['jshint:lists','concat:lists', 'uglify:lists','manifest'],
       },
       message: {
-        files: ['lists/js/partials/_message.js'],
+        files: ['js/partials/_message.js'],
         tasks: ['jshint:message','concat:message', 'uglify:message','manifest'],
       },
       reports: {
-        files: ['lists/js/partials/_reports.js'],
+        files: ['js/partials/_reports.js'],
         tasks: ['jshint:reports','concat:reports', 'uglify:reports','manifest'],
       },
       settings: {
-        files: ['lists/js/partials/_settings.js'],
+        files: ['js/partials/_settings.js'],
         tasks: ['jshint:settings','concat:settings', 'uglify:settings','manifest'],
       },
       summary: {
-        files: ['lists/js/partials/_summary.js'],
+        files: ['js/partials/_summary.js'],
         tasks: ['jshint:summary','concat:summary', 'uglify:summary','manifest'],
       },
       vendor: {
-        files: ['lists/js/vendor/*.js'],
+        files: ['js/vendor/*.js'],
         tasks: ['concat:vendor','concat', 'uglify', 'manifest'],
       },
       mainPHP: {
-        files: ['lists/admin.php','lists/index.php', 'lists/list.php', 'lists/message.php', 'lists/reports.php', 'lists/summary.php'],
+        files: ['admin.php','index.php', 'list.php', 'message.php', 'reports.php', 'summary.php'],
         tasks: ['phplint:main', 'manifest'],
       },
       version: {
-        files: ['lists/lists.version'],
+        files: ['lists.version'],
         tasks: ['manifest'],
       },
     },

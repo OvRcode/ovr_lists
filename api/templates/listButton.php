@@ -48,6 +48,12 @@
       </div>
     <?php endif; ?>
   </div>
+  <div class="row">
+    <?php if ( isset( $tertiary_label ) ): ?>
+      <div class="col-md-4 col-md-offset-1">
+        <?php echo "<strong>{$tertiary_label}</strong>: {$tertiary}";?>
+    <?php endif;?>
+  </div>
   <div class="expanded">
     <div class="row">
       <div class="buttonCell col-xs-5 col-md-6">
