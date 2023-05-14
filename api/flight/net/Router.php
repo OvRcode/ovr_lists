@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Flight: An extensible micro-framework.
  *
@@ -11,53 +13,57 @@ namespace flight\net;
 /**
  * The Router class is responsible for routing an HTTP request to
  * an assigned callback function. The Router tries to match the
- * requested URL against a series of URL patterns. 
+ * requested URL against a series of URL patterns.
  */
-class Router {
+class Router
+{
+    /**
+     * Case sensitive matching.
+     */
+    public bool $case_sensitive = false;
     /**
      * Mapped routes.
-     *
-     * @var array
      */
-    protected $routes = array();
+    protected array $routes = [];
 
     /**
-     * Pointer to current route
-     *
-     * @var int
+     * Pointer to current route.
      */
-    protected $index = 0;
+    protected int $index = 0;
 
     /**
      * Gets mapped routes.
      *
      * @return array Array of routes
      */
-    public function getRoutes() {
+    public function getRoutes(): array
+    {
         return $this->routes;
     }
 
     /**
      * Clears all routes in the router.
      */
-    public function clear() {
-        $this->routes = array();
+    public function clear(): void
+    {
+        $this->routes = [];
     }
 
     /**
      * Maps a URL pattern to a callback function.
      *
-     * @param string $pattern URL pattern to match
-     * @param callback $callback Callback function
-     * @param boolean $pass_route Pass the matching route object to the callback
+     * @param string   $pattern    URL pattern to match
+     * @param callback $callback   Callback function
+     * @param bool     $pass_route Pass the matching route object to the callback
      */
-    public function map($pattern, $callback, $pass_route = false) {
-        $url = $pattern;
-        $methods = array('*');
+    public function map(string $pattern, callable $callback, bool $pass_route = false): void
+    {
+        $url = trim($pattern);
+        $methods = ['*'];
 
-        if (strpos($pattern, ' ') !== false) {
-            list($method, $url) = explode(' ', trim($pattern), 2);
-
+        if (false !== strpos($url, ' ')) {
+            [$method, $url] = explode(' ', $url, 2);
+            $url = trim($url);
             $methods = explode('|', $method);
         }
 
@@ -68,11 +74,14 @@ class Router {
      * Routes the current request.
      *
      * @param Request $request Request object
-     * @return Route Matching route
+     *
+     * @return bool|Route Matching route or false if no match
      */
-    public function route(Request $request) {
+    public function route(Request $request)
+    {
+        $url_decoded = urldecode($request->url);
         while ($route = $this->current()) {
-            if ($route !== false && $route->matchMethod($request->method) && $route->matchUrl($request->url)) {
+            if (false !== $route && $route->matchMethod($request->method) && $route->matchUrl($url_decoded, $this->case_sensitive)) {
                 return $route;
             }
             $this->next();
@@ -84,26 +93,26 @@ class Router {
     /**
      * Gets the current route.
      *
-     * @return Route
+     * @return bool|Route
      */
-    public function current() {
-        return isset($this->routes[$this->index]) ? $this->routes[$this->index] : false;
+    public function current()
+    {
+        return $this->routes[$this->index] ?? false;
     }
 
     /**
      * Gets the next route.
-     *
-     * @return Route
      */
-    public function next() {
+    public function next(): void
+    {
         $this->index++;
     }
 
     /**
      * Reset to the first route.
      */
-    public  function reset() {
+    public function reset(): void
+    {
         $this->index = 0;
     }
 }
-
