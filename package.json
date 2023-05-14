@@ -1,12 +1,12 @@
 {
   "name": "ovr-lists",
-  "version": "v1.1.1",
+  "version": "v3.3.1",
   "description": "OvR Lists",
-  "author": "AJ Acevedo | Mike Barnard",
+  "author": "AJ Acevedo | Ada Lambrecht",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AJ-Acevedo/ovrride.git"
+    "url": "https://github.com/OvRcode/ovr_lists.git"
   },
   "devDependencies": {
     "grunt": "~1.0.1",

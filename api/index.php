@@ -614,7 +614,11 @@ class Lists {
         $sql = "SELECT `Data` FROM `ovr_lists_data` WHERE ID='".$orderData['num'].":".$orderData['item_num']."'";
         $result = $this->dbQuery($sql);
         $row = $result->fetch_assoc();
-        $data = $row['Data'];
+        if ( isset($row['Data']) ) {
+          $data = $row['Data'];
+        } else {
+          $data = "";
+        }
         $id = $orderData['num'] . ":" . $orderData['item_num'];
 
         if ( $data !== "" ) {
