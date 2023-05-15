@@ -1,0 +1,6 @@
+{
+    "require": {
+        "phpseclib/mcrypt_compat": "^2.0",
+        "daniel-zahariev/php-aws-ses": "^0.9.5"
+    }
+}

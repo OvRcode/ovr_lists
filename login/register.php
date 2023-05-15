@@ -1,7 +1,7 @@
 <?php
+require __DIR__ . '/vendor/autoload.php';
 require_once('PasswordHashClass.php');
 require_once('db.php');
-require_once('Mandrill.php');
 
 if ( isset($_POST['user_name']) && isset($_POST['user_password']) && isset($_POST['user_email']) && isset($_POST['Register'])) {
     $db = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME .';charset=utf8', DB_USER, DB_PASS);
@@ -24,7 +24,7 @@ if ( isset($_POST['user_name']) && isset($_POST['user_password']) && isset($_POS
         $userId = $db->lastInsertId();
         $activation_hash_string = $userId . $_POST['user_name'] . $_POST['user_email'] . $passwordHash;
         $activation = urlencode(hash_hmac('sha256', $activation_hash_string, $passwordHash));
-        $mandrillAPI = new Mandrill(getenv('MANDRILL_API'));
+        
         $textBody = <<<AAA
             Lists account request\n
             User: {$_POST['user_name']}\n
@@ -32,24 +32,18 @@ if ( isset($_POST['user_name']) && isset($_POST['user_password']) && isset($_POS
             \n
             Activation Link: https://{$_SERVER['SERVER_NAME']}/login/activate.php?user={$userId}&key={$activation}\n
 AAA;
-        $htmlBody = <<<BBB
-            Lists account request<br />
-        User: {$_POST['user_name']}<br />
-        Email: {$_POST['user_email']}<br />
-        <br />
-        Activation Link: <a href="https://{$_SERVER['SERVER_NAME']}/login/activate.php?user={$userId}&key={$activation}">
-                            https://{$_SERVER['SERVER_NAME']}/login/activate.php?user={$userId}&key={$activation}
-                        </a><br />
-BBB;
-        $message = new stdClass();
-        $message->html = $bodyHTML;
-        $message->text = $textBody;
-        $message->subject = "Lists: User Account";
-        $message->from_email = "devops@ovrride.com";
-        $message->from_name  = "OvR";
-        $message->to = array(array("email" => "devops@ovrride.com"));
-        $message->track_opens = true;
-        $response = $mandrillAPI->messages->send($message);
+
+        
+        $mail = new SimpleEmailServiceMessage();
+        $mail->addTo('OvR DevOps <devops@ovrride.com>');
+        $mail->setFrom('OvR DevOps <devops@ovrride.com>');
+        $mail->setSubject("OvR LIsts account activation for: {$_POST['user_email']}");
+        $mail->setMessageFromString( $textBody );
+
+        $ses = new SimpleEmailService( getenv('AWS_AccessKey'), getenv('AWS_SecretKey') );
+        $ses->sendEmail($mail);
+
+        
     }
 }
 

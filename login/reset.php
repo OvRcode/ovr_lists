@@ -1,7 +1,7 @@
 <?php
+require __DIR__ . '/vendor/autoload.php';
 require_once('PasswordHashClass.php');
 require_once('db.php');
-require_once('Mandrill.php');
 
 $db = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME .';charset=utf8', DB_USER, DB_PASS);
 
@@ -47,22 +47,15 @@ else if ( isset($_POST['Reset']) && $_POST['user_name'] && isset($_POST['user_em
         If you did request a reset copy the following address into your browser to reset your password.
             Reset Link: https://{$_SERVER['SERVER_NAME']}/login/reset.php?id={$user['user_id']}&key={$reset_key}\n
 AAA;
-        $bodyHTML = <<<BBB
-            <p>A password reset request was made for your account. If you did not make this request then ignore this email.
-        If you did request a reset copy the following address into your browser to reset your password.</p>
-            Reset Link: <a href="https://{$_SERVER['SERVER_NAME']}/login/reset.php?id={$user['user_id']}&key={$reset_key}">         
-                            https://{$_SERVER['SERVER_NAME']}/login/reset.php?id={$user['user_id']}&key={$reset_key}
-                        </a>
-BBB;
-        $message = new stdClass();
-        $message->html = $bodyHTML;
-        $message->text = $textBody;
-        $message->subject = "OvR Lists: Password Reset";
-        $message->from_email = "devops@ovrride.com";
-        $message->from_name  = "OvR";
-        $message->to = array(array("email" => $user['user_email']));
-        $message->track_opens = true;
-        $response = $mandrillAPI->messages->send($message);
+        $mail = new SimpleEmailServiceMessage();
+        $mail->addTo(  $user['user_email'] );
+        $mail->setFrom('OvR DevOps <devops@ovrride.com>');
+        $mail->setSubject("OvR Lists: Password Reset");
+        $mail->setMessageFromString( $textBody );
+
+        $ses = new SimpleEmailService( getenv('AWS_AccessKey'), getenv('AWS_SecretKey') );
+        $ses->sendEmail($mail);
+        
         echo "An email is on its way, check your inbox";
     }
 }
