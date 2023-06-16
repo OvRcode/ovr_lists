@@ -41,7 +41,7 @@ else if ( isset($_POST['Reset']) && $_POST['user_name'] && isset($_POST['user_em
         $reset_hash_string = $user['user_id'] . $user['user_name'] . $user['user_email'] . $user['user_password_hash'];
         $reset_key = urlencode( hash_hmac('sha256', $reset_hash_string, $user['user_password_hash']) );
         
-        $mandrillAPI = new Mandrill(getenv('MANDRILL_API'));
+        
         $textBody = <<<AAA
             A password reset request was made for your account. If you did not make this request then ignore this email.\n
         If you did request a reset copy the following address into your browser to reset your password.
