@@ -30,7 +30,7 @@ if ( isset($_POST['user_name']) && isset($_POST['user_password']) && isset($_POS
             User: {$_POST['user_name']}\n
             Email: {$_POST['user_email']}\n
             \n
-            Activation Link: https://{$_SERVER['SERVER_NAME']}/login/activate.php?user={$userId}&key={$activation}\n
+            Activation Link: https://{$_SERVER['NGINX_SERVER_NAME']}/login/activate.php?user={$userId}&key={$activation}\n
 AAA;
 
         

@@ -20,7 +20,7 @@ if ( isset($_POST['key']) && isset($_POST['user_id']) ) {
             $hashed_password = PasswordHash::create_hash($_POST['user_password']);
             $passwordReset = $db->prepare("UPDATE ovr_lists_login SET user_password_hash = :password_hash, activated = '1' WHERE user_id = :id");
             if ( $passwordReset->execute(array("password_hash" => $hashed_password, "id" => $_POST['user_id'])) ) {
-                echo "Password has been reset go to <a href='https://{$_SERVER['SERVER_NAME']}/login/login.php'>https://{$_SERVER['SERVER_NAME']}/login/login.php</a> to login";
+                echo "Password has been reset go to <a href='https://{$_SERVER['NGINX_SERVER_NAME']}/login/login.php'>https://{$_SERVER['NGINX_SERVER_NAME']}/login/login.php</a> to login";
             } else {
                 echo "Password failed to update.";
             }
@@ -45,7 +45,7 @@ else if ( isset($_POST['Reset']) && $_POST['user_name'] && isset($_POST['user_em
         $textBody = <<<AAA
             A password reset request was made for your account. If you did not make this request then ignore this email.\n
         If you did request a reset copy the following address into your browser to reset your password.
-            Reset Link: https://{$_SERVER['SERVER_NAME']}/login/reset.php?id={$user['user_id']}&key={$reset_key}\n
+            Reset Link: https://{$_SERVER['NGINX_SERVER_NAME']}/login/reset.php?id={$user['user_id']}&key={$reset_key}\n
 AAA;
         $mail = new SimpleEmailServiceMessage();
         $mail->addTo(  $user['user_email'] );
