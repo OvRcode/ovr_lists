@@ -1,5 +1,5 @@
 <?php
-require_once('mcrypt.php');
+require __DIR__ . '/vendor/autoload.php';
 require_once('db.php');
 require_once('PasswordHashClass.php');
 
