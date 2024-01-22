@@ -159,6 +159,9 @@ class Lists {
             $order[5] = $orderNum[0];
           }
           $index = count($order);
+          if ( ! array_key_exists('State', $data) ) {
+            $data['State'] = '';
+          }
           switch( $data['State'] ) {
             case "AM":
               $order[$index + 1] = "X";
