@@ -120,7 +120,7 @@ class Lists {
 
       $output = fopen("php://output", "w");
 
-      $headers = array("First", "Last", "Phone","Crew","Pickup","Package","Order","AM","Waiver","Product Recieved", "PM");
+      $headers = array("First", "Last", "Phone","Crew","Pickup","Package","Order","AM","Waiver","Product Recieved", "PM", "_line_total");
 
       if ( $type === "list") {
         if ( !$this->pickup ) {
@@ -129,6 +129,7 @@ class Lists {
         fputcsv($output, $headers);
 
         foreach( $orders as $ID => $data ) {
+          error_log( print_r($data['Data'], true));
           $order = array();
           $order[0] = ( isset( $data['Data']['First'] ) ? $data['Data']['First'] : '' );
           $order[1] = ( isset( $data['Data']['Last'] ) ? $data['Data']['Last'] : '' );
@@ -200,17 +201,17 @@ class Lists {
             $order[$index + 4] = "";
             break;
           }
+          $order[12] = ( isset( $data['Data']['_line_total'] ) ? $data['Data']['_line_total'] : '' );
         fputcsv($output, $order);
         }
         fclose($output);
       } else if ( "email" == $type ) {
         array_unshift($headers, "Email");
-        unset($headers[3],$headers[4],$headers[7], $headers[8], $headers[9], $headers[10], $headers[11]);
+        unset($headers[3],$headers[4],$headers[7], $headers[8], $headers[9], $headers[10], $headers[11], $headers[12]);
         if ( !$this->pickup ) {
           unset($headers[5]);
         }
         fputcsv($output, $headers);
-
         foreach( $orders as $ID => $data ) {
           $order = array();
           $order[0] = ( isset($data['Data']['Email']) ? $data['Data']['Email'] : '');
@@ -397,7 +398,8 @@ class Lists {
                         $fields = "`meta_key` = 'First'
                         OR `meta_key` = 'Last'
                         OR `meta_key` = 'Email'
-                        OR `meta_key` = 'Phone'";
+                        OR `meta_key` = 'Phone'
+                        OR `meta_key` = '_line_total'";
                         switch ( $this->tripInfo['type'] ) {
                           case 'bus':
                               $fields .= " OR `meta_key` = 'Pickup Location'
